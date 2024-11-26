@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
-export const PodcastContext = createContext();
+export const PodcastDetails= createContext();
 
 const PodcastProvider = ({ children }) => {
     const [shows, setShows] = useState([]);
@@ -24,9 +24,9 @@ const PodcastProvider = ({ children }) => {
     };
 
     return (
-        <PodcastContext.Provider value={{ shows, favorites, addFavorite, removeFavorite }}>
+        <PodcastDetails.Provider value={{ shows, favorites, addFavorite, removeFavorite }}>
             {children}
-        </PodcastContext.Provider>
+        </PodcastDetails.Provider>
     );
 };
 

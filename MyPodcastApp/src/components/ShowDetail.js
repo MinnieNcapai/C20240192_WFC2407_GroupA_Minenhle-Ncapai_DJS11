@@ -1,22 +1,27 @@
-import  { useContext } from 'react';
-import { PodcastContext } from '../AppDetails/PodcastDetails';
-import { Link } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { PodcastDetails } from '../AppDetails/PodcastDetails';
+import SeasonList from './SeasonList';
 
-const ShowList = () => {
-    const { shows } = useContext(PodcastContext);
+const ShowDetail = () => {
+    const { shows } = useContext(PodcastDetails);
+    const { id } = useParams();
+    const [show, setShow] = useState(null);
+
+    useEffect(() => {
+        const foundShow = shows.find(s => s.id === parseInt(id));
+        setShow(foundShow);
+    }, [id, shows]);
+
+    if (!show) return <div>Loading...</div>;
 
     return (
         <div>
-            <h2>Available Shows</h2>
-            <ul>
-                {shows.map(show => (
-                    <li key={show.id}>
-                        <Link to={`/shows/${show.id}`}>{show.title}</Link>
-                    </li>
-                ))}
-            </ul>
+            <h2>{show.title}</h2>
+            <p>{show.description}</p>
+            <SeasonList seasons={show.seasons} />
         </div>
     );
 };
 
-export default ShowList;
+export default ShowDetail;
