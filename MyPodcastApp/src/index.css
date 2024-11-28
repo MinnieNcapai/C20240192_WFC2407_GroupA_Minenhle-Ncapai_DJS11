@@ -1,25 +1,27 @@
 /* General container for the show details */
 .show-details-container {
-  display: grid;
-  grid-template-columns: 1fr; /* 1 column for small screens */
-  gap: 20px;
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  border: none; /* Remove border */
   padding: 20px;
-  font-family: Arial, sans-serif;
+  border-radius: 5px; /* Add rounded corners */
+  text-align: center; /* Center text within the container */
 }
 
 .show-list {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* 5 equal-width columns */
-  gap: 20px; /* Adjust spacing between shows as needed */
+  grid-template-columns: repeat(5, 1fr); 
+  gap: 20px; 
 }
 
 /* Show Card Styling */
 .show-card { 
-  border: 1px solid #ddd; 
+  border: 2px solid #000; 
   padding: 15px;
-  border-radius: 8px;
-  text-decoration: none; /* Remove underline from links */
-  color: inherit;      /* Inherit text color from parent */
+  border-radius: 5px; 
+  overflow: hidden; 
+  text-decoration: none; 
+  color: #000;  
 }
 
 .show-card:hover {
@@ -28,27 +30,33 @@
 }
 
 .show-header {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 20px;
-  align-items: center;
+  display: flex;
+  flex-direction: column; /* Stack image and title vertically */
+  align-items: flex-start;
+  margin-bottom: 20px; 
+  align-items: center; /* Horizontally center the image and title */
 }
 
 .show-image {
-  width: 100%;
+  width: 75%;
   height: auto;
-  object-fit: cover; 
-  border-radius: 8px;
+  object-fit: cover;
+  margin-left: auto;
+  margin-right: auto; /* Center the image horizontally */
+  display: block; /* Ensures the image takes up the full width available */
+  margin-bottom: 10px;
 }
 
 .show-title {
-  font-size: 1.2em; 
+  font-size: 1.5em; 
   color: #333;
+  margin-bottom: 10px; 
 }
 
 .show-description {
-  font-size: 1em;
+  font-size: 1.2em;
   color: #666;
+  white-space: pre-line; /* Preserve line breaks in description */
 }
 
 .loading {
@@ -66,22 +74,39 @@
   color: gray;
 }
 
-/* Style for season list or any other grid containers */
 .seasons-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 15px;
+  display: flex;
+  flex-direction: row; /* Arrange seasons horizontally */
+  flex-wrap: wrap; /* Allow wrapping to the next line if needed */
+  gap: 10px; /* Adjust spacing between seasons as needed */
 }
 
-/* Responsive Grid Adjustments - You can adjust these breakpoints */
-@media (max-width: 992px) { /* For smaller screens like tablets */
+/* Optional: Add spacing between seasons */
+.seasons-container > div {
+  margin-bottom: 10px;
+}
+
+/* Responsive Grid Adjustments */
+@media (max-width: 992px) { 
   .show-list {
-    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    grid-template-columns: repeat(3, 1fr); 
   }
 }
 
-@media (max-width: 768px) { /* For even smaller screens like phones */
+@media (max-width: 768px) { 
   .show-list {
-    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    grid-template-columns: repeat(2, 1fr); 
+  }
+
+  .show-details-container {
+    flex-direction: column; /* Stack show details vertically on small screens */
+  }
+
+  .show-header {
+    align-items: flex-start; /* Align header items to the left on small screens */
+  }
+
+  .seasons-container {
+    margin-top: 20px; /* Add spacing above seasons on small screens */
   }
 }
