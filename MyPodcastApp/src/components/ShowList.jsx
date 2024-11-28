@@ -1,12 +1,14 @@
 // ShowList.jsx
-import  { useEffect, useState } from "react";
-import ShowCard from "./ShowCard"; // Import the ShowCard component
+import { useEffect, useState } from "react";
+import ShowCard from "./ShowCard"; 
+import SearchBar from "./SearchBar"; 
 import PropTypes from "prop-types";
 
 const ShowList = () => {
   const [shows, setShows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState(""); 
 
   const fetchShowsData = async () => {
     try {
@@ -33,12 +35,21 @@ const ShowList = () => {
     fetchShowsData();
   }, []);
 
+  const filteredShows = shows.filter((show) =>
+    show.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+
   if (loading) {
     return <div className="loading">Loading...</div>;
   }
 
   if (error) {
-    return <div className="error">Error: {error}</div>;
+    return <div className="error">Error: {error}</div>; 1 
   }
 
   if (shows.length === 0) {
@@ -46,10 +57,16 @@ const ShowList = () => {
   }
 
   return (
-    <div className="show-list"> 
-      {shows.map((show) => (
-        <ShowCard key={show.id} show={show} /> 
-      ))}
+    <div>
+      <SearchBar
+        searchTerm={searchTerm}
+        handleSearchChange={handleSearchChange}
+      />
+      <div className="show-list">
+        {filteredShows.map((show) => (
+          <ShowCard key={show.id} show={show} />
+        ))}
+      </div>
     </div>
   );
 };
@@ -65,4 +82,3 @@ ShowList.propTypes = {
 };
 
 export default ShowList;
-
