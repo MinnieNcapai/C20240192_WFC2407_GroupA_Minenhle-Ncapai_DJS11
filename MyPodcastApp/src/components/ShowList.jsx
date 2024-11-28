@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom"; // Import Link for navigation
+// ShowList.jsx
+import  { useEffect, useState } from "react";
+import ShowCard from "./ShowCard"; // Import the ShowCard component
 import PropTypes from "prop-types";
 
 const ShowList = () => {
@@ -33,37 +34,21 @@ const ShowList = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="loading">Loading...</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div className="error">Error: {error}</div>;
   }
 
   if (shows.length === 0) {
-    return <p>No shows available</p>;
+    return <p className="no-show">No shows available</p>;
   }
 
   return (
-    <div>
+    <div className="show-list"> 
       {shows.map((show) => (
-        <Link
-          key={show.id}
-          to={`/shows/${show.id}`} // Link to the show detail page
-          className="show-card"
-        >
-          {/* Show image or a fallback image */}
-          {show.image ? (
-            <img src={show.image} alt={show.title} className="show-image" />
-          ) : (
-            <img
-              src="default-image.jpg"
-              alt="Default"
-              className="show-image"
-            />
-          )}
-          <h2>{show.title}</h2>
-        </Link>
+        <ShowCard key={show.id} show={show} /> 
       ))}
     </div>
   );
@@ -78,4 +63,6 @@ ShowList.propTypes = {
     })
   ),
 };
+
 export default ShowList;
+

@@ -9,8 +9,22 @@
 
 .show-list {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* Create 5 columns */
-  gap: 20px; /* Adjust spacing between shows */
+  grid-template-columns: repeat(5, 1fr); /* 5 equal-width columns */
+  gap: 20px; /* Adjust spacing between shows as needed */
+}
+
+/* Show Card Styling */
+.show-card { 
+  border: 1px solid #ddd; 
+  padding: 15px;
+  border-radius: 8px;
+  text-decoration: none; /* Remove underline from links */
+  color: inherit;      /* Inherit text color from parent */
+}
+
+.show-card:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+  transform: translateY(-2px); 
 }
 
 .show-header {
@@ -23,18 +37,17 @@
 .show-image {
   width: 100%;
   height: auto;
-  object-fit: cover; /* Ensure the image doesn't stretch or distort */
+  object-fit: cover; 
   border-radius: 8px;
-  max-width: 400px; /* Limit the size of the image */
 }
 
 .show-title {
-  font-size: 2em;
+  font-size: 1.2em; 
   color: #333;
 }
 
 .show-description {
-  font-size: 1.2em;
+  font-size: 1em;
   color: #666;
 }
 
@@ -60,9 +73,15 @@
   gap: 15px;
 }
 
-/* Responsive Grid Adjustments */
-@media (max-width: 768px) {
-  .show-details-container {
-    grid-template-columns: 1fr; /* Single column on small screens */
+/* Responsive Grid Adjustments - You can adjust these breakpoints */
+@media (max-width: 992px) { /* For smaller screens like tablets */
+  .show-list {
+    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+  }
+}
+
+@media (max-width: 768px) { /* For even smaller screens like phones */
+  .show-list {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
   }
 }
