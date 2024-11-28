@@ -1,63 +1,63 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios'; // Import axios for making the API call
-import SeasonList from './SeasonList'; // Import the SeasonList component to display seasons
+import axios from 'axios'; 
+import SeasonList from './SeasonList'; 
 
 const ShowDetail = () => {
-    const { id } = useParams(); // Get the show ID from the URL
-    const [show, setShow] = useState(null); // State for the detailed show data
-    const [loading, setLoading] = useState(true); // State for loading status
-    const [error, setError] = useState(null); // State for error handling
+    const { id } = useParams(); 
+    const [showDetails, setShowDetails] = useState(null); // Changed to showDetails for clarity
+    const [loading, setLoading] = useState(true); 
+    const [error, setError] = useState(null); 
 
     useEffect(() => {
-        // Fetch show details when the ID changes
         const fetchShowDetails = async () => {
             try {
-                setLoading(true); // Set loading to true while fetching
-                const response = await axios.get(`https://podcast-api.netlify.app/id/${id}`); // Fetch the show details
-                setShow(response.data); // Set the fetched show data
+                setLoading(true); 
+                const response = await axios.get(`https://podcast-api.netlify.app/id/${id}`); 
+                setShowDetails(response.data); 
             } catch (err) {
-                console.error(err); // Log the error to the console for debugging
-                setError('Failed to load show details.'); // Set a generic error message
+                console.error(err); 
+                setError('Failed to load show details.'); 
             } finally {
-                setLoading(false); // Set loading to false after fetching completes
+                setLoading(false); 
             }
         };
 
-        fetchShowDetails(); // Call the function to fetch show details
-    }, [id]); // Dependency on the show ID to refetch if it changes
+        fetchShowDetails(); 
+    }, [id]); 
 
     if (loading) {
-        return <div className="loading">Loading...</div>; // Show loading text while fetching
+        return <div className="loading">Loading...</div>; 
     }
 
     if (error) {
-        return <div className="error">{error}</div>; // Show error message if something went wrong
+        return <div className="error">{error}</div>; 
     }
 
-    if (!show) {
+    if (!showDetails) { // Check if showDetails is null
         return (
             <div className="no-show">
                 <p>Show not found. Please check the URL or try again later.</p>
             </div>
-        ); // If no show is found, display a message
+        ); 
     }
 
     return (
         <div className="show-details-container">
             <div className="show-header">
                 <img 
-                    src={show.image} 
-                    alt={show.title} 
+                    src={showDetails.image} // Access properties from showDetails
+                    alt={showDetails.title} 
                     className="show-image" 
                 />
-                <h2 className="show-title">{show.title}</h2>
+                <h2 className="show-title">{showDetails.title}</h2>
             </div>
-            <p className="show-description">{show.description}</p>
-            <SeasonList seasons={show.seasons} /> {/* Pass seasons data to SeasonList */}
+            <p className="show-description">{showDetails.description}</p>
+
+            {/* Conditionally render SeasonList if seasons exist */}
+            {showDetails.seasons && <SeasonList seasons={showDetails.seasons} />} 
         </div>
     );
-
 };
 
 export default ShowDetail;

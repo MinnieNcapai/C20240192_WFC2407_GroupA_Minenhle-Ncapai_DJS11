@@ -1,26 +1,29 @@
-import PropTypes from 'prop-types';
-import EpisodePlayer from './EpisodePlayer';
+import  "react";
+import PropTypes from "prop-types";
 
-const SeasonList = ({ seasons }) => {
+const EpisodePlayer = ({ episodes }) => {
+  if (!episodes) { 
+    return <div>Loading episodes...</div>
+  }
+
   return (
     <div>
-      {seasons.map((season) => (
-        <div key={season.id}>
-          <h3>{season.title}</h3>
-          {/* Conditionally render EpisodePlayer if season.episodes is defined */}
-          {season.episodes && season.episodes.length > 0 ? (
-            <EpisodePlayer episodes={season.episodes} />
-          ) : (
-            <p>No episodes available.</p>
-          )}
+      {/* Assuming 'episodes' is an array, add a key prop */}
+      {episodes.map((episode, index) => ( 
+        <div key={episode.id || index}> 
+          <h4>{episode.title}</h4>
+          <audio controls>
+            <source src={episode.file} type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </audio>
         </div>
       ))}
     </div>
   );
 };
 
-SeasonList.propTypes = {
-  seasons: PropTypes.arrayOf(
+EpisodePlayer.propTypes = {
+  episodes: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
@@ -35,4 +38,4 @@ SeasonList.propTypes = {
   ).isRequired,
 };
 
-export default SeasonList;
+export default EpisodePlayer;
