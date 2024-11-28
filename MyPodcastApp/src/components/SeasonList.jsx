@@ -3,7 +3,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import EpisodePlayer from "./EpisodePlayer";
 
-const SeasonList = ({ seasons }) => {
+const SeasonList = ({ seasons, onFavoriteToggle }) => {
   const [selectedSeasonId, setSelectedSeasonId] = useState(null);
 
   const handleSeasonClick = (seasonId) => {
@@ -13,7 +13,7 @@ const SeasonList = ({ seasons }) => {
   return (
     <div>
       {seasons.map((season) => (
-        <div key={season.id}> {/* Key prop added here */}
+        <div key={season.id}>
           <h3
             onClick={() => handleSeasonClick(season.id)}
             style={{
@@ -26,12 +26,11 @@ const SeasonList = ({ seasons }) => {
           {/* Conditionally render episodes only for the selected season */}
           {selectedSeasonId === season.id && season.episodes && (
             <div>
-              <EpisodePlayer
-                episodes={season.episodes.map((episode, episodeIndex) => ({
-                  ...episode,
-                  id: episode.id || episodeIndex, // Generate unique ID if needed
-                }))}
-              />
+              {/* Pass onFavoriteToggle to EpisodePlayer */}
+              <EpisodePlayer 
+                episodes={season.episodes} 
+                onFavoriteToggle={onFavoriteToggle} 
+              /> 
             </div>
           )}
         </div>
@@ -40,7 +39,6 @@ const SeasonList = ({ seasons }) => {
   );
 };
 
-// Prop validation
 SeasonList.propTypes = {
   seasons: PropTypes.arrayOf(
     PropTypes.shape({
@@ -48,13 +46,14 @@ SeasonList.propTypes = {
       title: PropTypes.string.isRequired,
       episodes: PropTypes.arrayOf(
         PropTypes.shape({
-          id: PropTypes.number.isRequired, 
+          id: PropTypes.number.isRequired,
           title: PropTypes.string.isRequired,
           file: PropTypes.string.isRequired,
         })
       ).isRequired,
     })
   ).isRequired,
+  onFavoriteToggle: PropTypes.func.isRequired, // Add propType for onFavoriteToggle
 };
 
 export default SeasonList;

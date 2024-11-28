@@ -9,6 +9,18 @@ const ShowDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const handleFavoriteToggle = (episodeId) => {
+    setShowDetails((prevShowDetails) => {
+      const updatedSeasons = prevShowDetails.seasons.map((season) => ({
+        ...season,
+        episodes: season.episodes.map((episode) =>
+          episode.id === episodeId ? { ...episode, isFavorite: !episode.isFavorite } : episode
+        ),
+      }));
+      return { ...prevShowDetails, seasons: updatedSeasons };
+    });
+  };
+
   useEffect(() => {
     const fetchShowDetails = async () => {
       try {
@@ -73,10 +85,11 @@ const ShowDetail = () => {
 
       {/* Conditionally render SeasonList if seasons exist */}
       {showDetails.seasons && (
-        <SeasonList seasons={showDetails.seasons} />
+        <SeasonList seasons={showDetails.seasons} onFavoriteToggle={handleFavoriteToggle} /> 
       )}
     </div>
   );
 };
+
 
 export default ShowDetail;
