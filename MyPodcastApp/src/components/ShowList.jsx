@@ -1,4 +1,3 @@
-// ShowList.jsx
 import { useEffect, useState } from "react";
 import ShowCard from "./ShowCard";
 import SearchBar from "./SearchBar";
@@ -20,19 +19,55 @@ const ShowList = () => {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
-      console.log("Fetched data:", data);
-      if (Array.isArray(data)) {
-        setShows(data);
+      console.log("Fetched shows data:", data);
 
-        // Extract genres (assuming each show has a 'genres' array)
-        const allGenres = new Set();
-        data.forEach((show) => {
-          show.genres.forEach((genre) => allGenres.add(genre));
-        });
-        setGenres(Array.from(allGenres));
-      } else {
-        throw new Error("Invalid data format, expected an array of shows");
-      }
+      // Ensure each show has a description before setting shows state
+      const showsWithDescriptions = data.map(show => ({
+        ...show,
+        description: show.description || "" 
+      }));
+
+      setShows(showsWithDescriptions); 
+
+      // Extract unique genre IDs from shows
+      const allGenreIds = new Set();
+      data.forEach((show) => {
+        if (show.genres) {
+          show.genres.forEach((genre) => {
+            if (typeof genre === 'object' && genre.id) {
+              allGenreIds.add(genre.id);
+            } else if (typeof genre === 'number') {
+              allGenreIds.add(genre);
+            }
+          });
+        }
+      });
+
+      const uniqueGenreIds = Array.from(allGenreIds);
+      console.log("Unique Genre IDs:", uniqueGenreIds);
+
+      // Fetch genre data for each unique genre ID
+      const genrePromises = Array.from(uniqueGenreIds).map((id) =>
+        fetch(`https://podcast-api.netlify.app/genre/${id}`)
+          .then((res) => {
+            if (!res.ok) {
+              throw new Error(`Error fetching genre ${id}: ${res.status}`);
+            }
+            return res.json();
+          })
+          .then((genreData) => ({
+            id: genreData.id,
+            title: genreData.title,
+          }))
+          .catch((error) => {
+            console.error("Error fetching genre:", error);
+            return null;
+          })
+      );
+
+      const fetchedGenres = await Promise.all(genrePromises);
+      setGenres(fetchedGenres.filter(genre => genre !== null));
+
     } catch (error) {
       setError(error.message);
       console.error("Error fetching shows:", error);
@@ -41,36 +76,20 @@ const ShowList = () => {
     }
   };
 
-  const fetchGenres = async () => {
-    try {
-      const response = await fetch("https://podcast-api.netlify.app/genres");
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      const data = await response.json();
-  
-      // Check if data is an array before mapping
-      const genreNames = Array.isArray(data) 
-        ? data.map((genre) => (typeof genre === 'string' ? genre : genre.name))
-        : []; // If data is not an array, set genres to an empty array
-  
-      setGenres(genreNames); 
-    } catch (error) {
-      console.error("Error fetching genres:", error);
-    }
-  };
-
   useEffect(() => {
     fetchShowsData();
-    fetchGenres(); 
   }, []);
 
   const filteredShows = shows.filter((show) => {
     const matchesSearchTerm = show.title
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
-    const matchesGenre =
-      selectedGenre === "" || show.genres.includes(selectedGenre);
+
+    const matchesGenre = selectedGenre === "" || show.genres.some(genre => {
+      const genreId = typeof genre === 'object' ? genre.id : genre;
+      return genreId === Number(selectedGenre);
+    });
+
     return matchesSearchTerm && matchesGenre;
   });
 
@@ -116,14 +135,21 @@ const ShowList = () => {
   );
 };
 
+// PropTypes for type checking
 ShowList.propTypes = {
   shows: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
-      image: PropTypes.string,
+      description: PropTypes.string.isRequired,
+      genres: PropTypes.arrayOf(PropTypes.oneOfType([
+        PropTypes.shape({
+          id: PropTypes.number.isRequired,
+        }),
+        PropTypes.number,
+      ])).isRequired,
     })
-  ),
+  ).isRequired,
 };
 
 export default ShowList;

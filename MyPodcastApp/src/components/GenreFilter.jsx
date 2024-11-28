@@ -1,5 +1,5 @@
 // GenreFilter.jsx
-import "react";
+import  "react";
 import PropTypes from "prop-types";
 
 const GenreFilter = ({ genres, selectedGenre, handleGenreChange }) => {
@@ -7,8 +7,8 @@ const GenreFilter = ({ genres, selectedGenre, handleGenreChange }) => {
     <select value={selectedGenre} onChange={handleGenreChange}>
       <option value="">All Genres</option>
       {genres.map((genre) => (
-        <option key={genre} value={genre}>
-          {genre}
+        <option key={genre.id} value={genre.id}> 1  {/* Use genre.id for value */}
+          {genre.title} {/* Display genre.title */}
         </option>
       ))}
     </select>
@@ -16,8 +16,13 @@ const GenreFilter = ({ genres, selectedGenre, handleGenreChange }) => {
 };
 
 GenreFilter.propTypes = {
-  genres: PropTypes.arrayOf(PropTypes.string).isRequired,
-  selectedGenre: PropTypes.string.isRequired,
+  genres: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  selectedGenre: PropTypes.string.isRequired, // Or PropTypes.number if you're using genre ID
   handleGenreChange: PropTypes.func.isRequired,
 };
 
