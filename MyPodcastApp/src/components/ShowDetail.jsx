@@ -28,28 +28,36 @@ const ShowDetail = () => {
     }, [id]); // Dependency on the show ID to refetch if it changes
 
     if (loading) {
-        return <div>Loading...</div>; // Show loading text while fetching
+        return <div className="loading">Loading...</div>; // Show loading text while fetching
     }
 
     if (error) {
-        return <div>{error}</div>; // Show error message if something went wrong
+        return <div className="error">{error}</div>; // Show error message if something went wrong
     }
 
     if (!show) {
         return (
-            <div>
+            <div className="no-show">
                 <p>Show not found. Please check the URL or try again later.</p>
             </div>
         ); // If no show is found, display a message
     }
 
     return (
-        <div>
-            <h2>{show.title}</h2>
-            <p>{show.description}</p>
+        <div className="show-details-container">
+            <div className="show-header">
+                <img 
+                    src={show.image} 
+                    alt={show.title} 
+                    className="show-image" 
+                />
+                <h2 className="show-title">{show.title}</h2>
+            </div>
+            <p className="show-description">{show.description}</p>
             <SeasonList seasons={show.seasons} /> {/* Pass seasons data to SeasonList */}
         </div>
     );
+
 };
 
 export default ShowDetail;

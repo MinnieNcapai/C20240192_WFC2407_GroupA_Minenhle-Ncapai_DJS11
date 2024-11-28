@@ -1,25 +1,62 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
-header {
-  background: #282c34;
-  color: white;
+/* General container for the show details */
+.show-details-container {
+  display: grid;
+  grid-template-columns: 1fr; /* 1 column for small screens */
+  gap: 20px;
   padding: 20px;
-  text-align: center;
+  font-family: Arial, sans-serif;
 }
 
-h2, h3, h4 {
-  margin: 10px 0;
+.show-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 20px;
+  align-items: center;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
+.show-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover; /* Ensure the image doesn't stretch or distort */
+  border-radius: 8px;
+  max-width: 400px; /* Limit the size of the image */
 }
 
-li {
-  margin: 5px 0;
+.show-title {
+  font-size: 2em;
+  color: #333;
+}
+
+.show-description {
+  font-size: 1.2em;
+  color: #666;
+}
+
+.loading {
+  font-size: 1.5em;
+  color: #ff9800;
+}
+
+.error {
+  font-size: 1.5em;
+  color: red;
+}
+
+.no-show {
+  font-size: 1.2em;
+  color: gray;
+}
+
+/* Style for season list or any other grid containers */
+.seasons-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+/* Responsive Grid Adjustments */
+@media (max-width: 768px) {
+  .show-details-container {
+    grid-template-columns: 1fr; /* Single column on small screens */
+  }
 }

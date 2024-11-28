@@ -5,6 +5,7 @@ import ShowDetail from './components/ShowDetail';
 import Favorites from './components/Favorites';
 import Header from './components/Header';
 
+
 const App = () => {
     return (
         <PodcastDetailsProvider> {/* Wrap with PodcastDetailsProvider */}
