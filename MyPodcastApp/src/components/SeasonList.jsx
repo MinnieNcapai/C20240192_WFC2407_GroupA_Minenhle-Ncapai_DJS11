@@ -1,22 +1,38 @@
-// In SeasonList.jsx
-import  "react";
+// SeasonList.jsx
+import { useState } from "react";
 import PropTypes from "prop-types";
 import EpisodePlayer from "./EpisodePlayer";
 
 const SeasonList = ({ seasons }) => {
-  if (!seasons) { 
-    return <div>Loading seasons...</div>; 
-  }
+  const [selectedSeasonId, setSelectedSeasonId] = useState(null);
+
+  const handleSeasonClick = (seasonId) => {
+    setSelectedSeasonId(selectedSeasonId === seasonId ? null : seasonId);
+  };
 
   return (
     <div>
       {seasons.map((season) => (
-        <div key={season.id}>
-          <h3>{season.title}</h3>
-
-          {/* Check if season.episodes is defined before mapping */}
-          {season.episodes && ( 
-            <EpisodePlayer episodes={season.episodes} />
+        <div key={season.id}> {/* Key prop added here */}
+          <h3
+            onClick={() => handleSeasonClick(season.id)}
+            style={{
+              cursor: "pointer",
+              fontWeight: selectedSeasonId === season.id ? "bold" : "normal",
+            }}
+          >
+            {season.title}
+          </h3>
+          {/* Conditionally render episodes only for the selected season */}
+          {selectedSeasonId === season.id && season.episodes && (
+            <div>
+              <EpisodePlayer
+                episodes={season.episodes.map((episode, episodeIndex) => ({
+                  ...episode,
+                  id: episode.id || episodeIndex, // Generate unique ID if needed
+                }))}
+              />
+            </div>
           )}
         </div>
       ))}
@@ -32,12 +48,12 @@ SeasonList.propTypes = {
       title: PropTypes.string.isRequired,
       episodes: PropTypes.arrayOf(
         PropTypes.shape({
-          id: PropTypes.number.isRequired,
+          id: PropTypes.number.isRequired, 
           title: PropTypes.string.isRequired,
           file: PropTypes.string.isRequired,
-        }),
+        })
       ).isRequired,
-    }),
+    })
   ).isRequired,
 };
 
