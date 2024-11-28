@@ -1,23 +1,22 @@
-import 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import PodcastProvider from './AppDetails/PodcastDetails';
-import Header from './components/Header';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import PodcastDetailsProvider from './AppDetails/PodcastDetails'; // Correct import
 import ShowList from './components/ShowList';
 import ShowDetail from './components/ShowDetail';
 import Favorites from './components/Favorites';
+import Header from './components/Header';
 
 const App = () => {
     return (
-        <PodcastProvider>
+        <PodcastDetailsProvider> {/* Wrap with PodcastDetailsProvider */}
             <Router>
                 <Header />
-                <Switch>
-                    <Route path="/" exact component={ShowList} />
-                    <Route path="/shows/:id" component={ShowDetail} />
-                    <Route path="/favorites" component={Favorites} />
-                </Switch>
+                <Routes>
+                    <Route path="/" element={<ShowList />} />
+                    <Route path="/shows/:id" element={<ShowDetail />} />
+                    <Route path="/favorites" element={<Favorites />} />
+                </Routes>
             </Router>
-        </PodcastProvider>
+        </PodcastDetailsProvider>
     );
 };
 
