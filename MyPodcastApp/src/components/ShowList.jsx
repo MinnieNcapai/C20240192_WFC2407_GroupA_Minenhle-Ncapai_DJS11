@@ -21,22 +21,47 @@ const ShowList = () => {
       const data = await response.json();
       console.log("Fetched shows data:", data);
 
-      // Ensure each show has a description before setting shows state
-      const showsWithDescriptions = data.map(show => ({
-        ...show,
-        description: show.description || "" 
+      // Fetch season data for each show
+      const showsWithSeasons = await Promise.all(data.map(async (show) => {
+        try {
+          const seasonsResponse = await fetch(
+            `https://podcast-api.netlify.app/shows/${show.id}/seasons`
+          );
+          if (!seasonsResponse.ok) {
+            const errorText = await seasonsResponse.text();
+            throw new Error(
+              `Error fetching seasons for show ${show.id}: ${seasonsResponse.status} - ${errorText}`
+            );
+          }
+          const seasonsData = await seasonsResponse.json();
+          return { ...show, seasons: seasonsData };
+        } catch (error) {
+          console.error(`Error fetching seasons for show ${show.id}:`, error);
+          return { ...show, seasons: [] };
+        }
       }));
 
-      setShows(showsWithDescriptions); 
+      // Ensure each show has a description before setting shows state
+      const showsWithDescriptions = showsWithSeasons.map((show) => ({
+        ...show,
+        description: show.description || "",
+      }));
+
+      // Sort shows alphabetically by title
+      showsWithDescriptions.sort((a, b) =>
+        a.title.localeCompare(b.title)
+      );
+
+      setShows(showsWithDescriptions);
 
       // Extract unique genre IDs from shows
       const allGenreIds = new Set();
-      data.forEach((show) => {
+      showsWithDescriptions.forEach((show) => {
         if (show.genres) {
           show.genres.forEach((genre) => {
-            if (typeof genre === 'object' && genre.id) {
+            if (typeof genre === "object" && genre.id) {
               allGenreIds.add(genre.id);
-            } else if (typeof genre === 'number') {
+            } else if (typeof genre === "number") {
               allGenreIds.add(genre);
             }
           });
@@ -66,8 +91,7 @@ const ShowList = () => {
       );
 
       const fetchedGenres = await Promise.all(genrePromises);
-      setGenres(fetchedGenres.filter(genre => genre !== null));
-
+      setGenres(fetchedGenres.filter((genre) => genre !== null));
     } catch (error) {
       setError(error.message);
       console.error("Error fetching shows:", error);
@@ -85,10 +109,12 @@ const ShowList = () => {
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
 
-    const matchesGenre = selectedGenre === "" || show.genres.some(genre => {
-      const genreId = typeof genre === 'object' ? genre.id : genre;
-      return genreId === Number(selectedGenre);
-    });
+    const matchesGenre =
+      selectedGenre === "" ||
+      show.genres.some((genre) => {
+        const genreId = typeof genre === "object" ? genre.id : genre;
+        return genreId === Number(selectedGenre);
+      });
 
     return matchesSearchTerm && matchesGenre;
   });
@@ -142,12 +168,14 @@ ShowList.propTypes = {
       id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
       description: PropTypes.string.isRequired,
-      genres: PropTypes.arrayOf(PropTypes.oneOfType([
-        PropTypes.shape({
-          id: PropTypes.number.isRequired,
-        }),
-        PropTypes.number,
-      ])).isRequired,
+      genres: PropTypes.arrayOf(
+        PropTypes.oneOfType([
+          PropTypes.shape({
+            id: PropTypes.number.isRequired,
+          }),
+          PropTypes.number,
+        ])
+      ).isRequired,
     })
   ).isRequired,
 };
