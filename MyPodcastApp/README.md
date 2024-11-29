@@ -1,5 +1,7 @@
 # React + Vite
 
+Netlify link: https://thedailymic.netlify.app/
+
 Podcast App Documentation
 This React application allows users to explore podcasts, view episodes and seasons, search, filter by genre, and mark episodes as favorites. It uses React's Context API for state management, Axios for fetching data, and localStorage for persisting user preferences.
 
@@ -16,7 +18,7 @@ Displays a list of podcasts, their seasons, and episodes.
 Allows searching for podcasts by title and filtering by genre.
 Supports toggling favorite status for episodes.
 
-ShowDetails
+ShowDetailAdd documentation for Podcast App components and functionality
 Displays detailed information for a specific podcast show.
 Allows toggling favorite status for episodes within the show.
 ShowCard
