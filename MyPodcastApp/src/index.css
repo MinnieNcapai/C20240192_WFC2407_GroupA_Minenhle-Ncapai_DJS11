@@ -1,94 +1,101 @@
-/* General container for the show details */
+/* General container for show details */
 .show-details-container {
   display: center;
   flex-direction: column; /* Stack elements vertically */
-  border: none; /* Remove border */
   padding: 20px;
   margin-bottom: 5px;
   margin-top: 5px;
-  border-radius: 5px; /* Add rounded corners */
-  text-align: center; /* Center text within the container */
+  border-radius: 5px; /* Rounded corners */
+  text-align: center; /* Center text inside the container */
 }
 
+/* Show list displayed as a grid with 4 equal-width columns */
 .show-list {
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* 4 equal-width columns */
-  gap: 20px; 
+  gap: 20px;
 }
 
 /* Show Card Styling */
-.show-card { 
-  border: 2px solid #000; 
+.show-card {
+  border: 2px solid #000;
   padding: 15px;
-  border-radius: 5px; 
-  overflow: hidden; 
-  text-decoration: none; 
-  color: #000;  
+  border-radius: 5px;
+  overflow: hidden;
+  text-decoration: none;
+  color: #000;
 }
 
-.show-detail .show-card { /* Target the .show-card within .show-detail */
+/* Show card styling within the show detail page */
+.show-detail .show-card {
   display: flex;
-  margin-bottom: 20px;
-  margin-top: 20px;
-  flex-direction: column; /* Align items vertically */
+  margin: 20px 0; /* Margin top and bottom */
+  flex-direction: column; /* Stack items vertically */
   align-items: center; /* Center items horizontally */
 }
 
+/* Show card within the details container */
 .show-details-container .show-card {
   display: flex;
   flex-direction: column;
-  align-items: center; 
-  width: 60%; 
-  max-width: 900px; 
+  align-items: center;
+  width: 60%; /* Adjust width */
+  max-width: 900px; /* Limit max-width */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 20px auto; /* Center horizontally and add margin */
   padding: 20px;
-  border-radius: 5px; 
-  margin: 20px auto; /* Add margin: top and bottom auto, left and right 0 */
-  margin-top: 10px;
+  border-radius: 5px;
 }
 
+/* Image inside the show card */
 .show-details-container .show-card .show-image {
-  width: 100%; 
-  max-width: 400px; /* Adjust this value to control the image size */
-  height: auto; 
-  border-radius: 10px; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-  margin-bottom: 20px; 
-}
-.show-card:hover {
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
-  transform: translateY(-2px); 
-}
-
-.show-header {
-  display: flex;
-  flex-direction: column; /* Stack image and title vertically */
-  align-items: flex-start;
-  margin-bottom: 20px; 
-  align-items: center; /* Horizontally center the image and title */
-}
-
-.show-image {
-  width: 100%; /* Make the image responsive */
-  max-width: 600px; /* Limit max width */
-  height: auto; /* Maintain aspect ratio */
-  border-radius: 10px; /* Rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+  width: 100%;
+  max-width: 400px; /* Adjust image size */
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   margin-bottom: 20px; /* Space below the image */
 }
 
-.show-title {
-  font-size: 2em; /* Increase font size for title */
-  margin: 10px 0; /* Space around the title */
+/* Hover effect for show card */
+.show-card:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Add shadow */
+  transform: translateY(-2px); /* Lift effect */
 }
 
+/* Styling for the show header */
+.show-header {
+  display: flex;
+  flex-direction: column; /* Stack image and title vertically */
+  align-items: center; /* Center header elements */
+  margin-bottom: 20px;
+}
+
+/* Image styling inside show header */
+.show-image {
+  width: 100%; /* Make the image responsive */
+  max-width: 600px; /* Limit max width */
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+  margin-bottom: 20px;
+}
+
+/* Title of the show */
+.show-title {
+  font-size: 2em; /* Increase font size */
+  margin: 10px 0;
+}
+
+/* Description of the show */
 .show-description {
   font-size: 1.1em; /* Slightly larger font for description */
   line-height: 1.5; /* Increase line height for readability */
-  color: #666; /* Slightly lighter color for description */
-  white-space: pre-line; /* Preserve line breaks in description */
+  color: #666; /* Lighten color for description */
+  white-space: pre-line; /* Preserve line breaks */
 }
 
+/* Loading and error messages */
 .loading {
   font-size: 1.5em;
   color: #ff9800;
@@ -104,67 +111,69 @@
   color: gray;
 }
 
+/* Container for seasons displayed horizontally */
 .seasons-container {
   display: flex;
   flex-direction: row; /* Arrange seasons horizontally */
-  flex-wrap: wrap; /* Allow wrapping to the next line if needed */
-  gap: 10px; /* Adjust spacing between seasons as needed */
+  flex-wrap: wrap; /* Wrap to the next line if necessary */
+  gap: 10px;
 }
 
-/* Optional: Add spacing between seasons */
-.seasons-container > div {
-  margin-bottom: 10px;
-}
-
-/* Responsive Grid Adjustments */
-@media (max-width: 992px) { 
+/* Responsive Grid Adjustments for medium screens */
+@media (max-width: 992px) {
   .show-list {
-    grid-template-columns: repeat(3, 1fr); /* 3 equal-width columns on medium screens */
+    grid-template-columns: repeat(3, 1fr); /* 3 columns on medium screens */
   }
 }
 
-@media (max-width: 768px) { 
+/* Responsive Grid Adjustments for small screens */
+@media (max-width: 768px) {
   .show-list {
-    grid-template-columns: repeat(2, 1fr); /* 2 equal-width columns on smaller screens */
+    grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
   }
 
   .show-details-container {
-    flex-direction: column; /* Stack show details vertically on small screens */
+    flex-direction: column; /* Stack details vertically */
   }
 
   .show-header {
-    align-items: flex-start; /* Align header items to the left on small screens */
+    align-items: flex-start; /* Align header to the left */
   }
 
   .seasons-container {
-    margin-top: 20px; /* Add spacing above seasons on small screens */
+    margin-top: 20px; /* Add margin above seasons */
   }
 }
 
+/* Styling for the favorites container */
 .favorites-container {
-  width: 75%; /* Adjust width as needed */
+  width: 75%;
   margin: 20px auto;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
 
+/* Styling for each favorite card */
 .favorite-card {
   border: 1px solid #ccc;
   padding: 10px;
   border-radius: 5px;
 }
 
+/* Image inside favorite card */
 .favorite-image {
-  width: 100px; /* Adjust width as needed */
-  height: auto; /* Maintain aspect ratio */
+  width: 100px; /* Set width for the image */
+  height: auto;
   margin-right: 10px;
 }
 
+/* Dropdown for favorites */
 .favorites-dropdown {
   margin-top: 20px;
 }
 
+/* Grid layout for displaying favorites */
 .favorites-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3 equal-width columns */
