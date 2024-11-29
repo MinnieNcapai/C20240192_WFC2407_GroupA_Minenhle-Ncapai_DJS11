@@ -5,9 +5,9 @@ import EpisodePlayer from "./EpisodePlayer";
 
 function Favorites() {
   const [favorites, setFavorites] = useState([]);
-  const [sortOrder, setSortOrder] = useState("asc");
   const [showDropdown, setShowDropdown] = useState(false);
   const [playingEpisode, setPlayingEpisode] = useState(null);
+  const [sortBy, setSortBy] = useState("title"); 
 
   useEffect(() => {
     const storedFavorites = localStorage.getItem("favorites");
@@ -16,22 +16,27 @@ function Favorites() {
     }
   }, []);
 
-  const handleSortChange = (order) => {
-    setSortOrder(order);
-  };
-
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
 
+  const handleSortChange = (event) => {
+    setSortBy(event.target.value); 
+  };
+
   const sortedFavorites = [...favorites].sort((a, b) => {
-    const titleA = a.episode.title.toLowerCase();
-    const titleB = b.episode.title.toLowerCase();
-    if (sortOrder === "asc") {
-      return titleA.localeCompare(titleB);
-    } else {
-      return titleB.localeCompare(titleA);
-    }
+    if (sortBy === "title") {
+      const titleA = a.episode.title.toLowerCase();
+      const titleB = b.episode.title.toLowerCase();
+      return titleA.localeCompare(titleB); 
+    } else if (sortBy === "dateAdded") { 
+      return new Date(a.favoritedAt) - new Date(b.favoritedAt);
+    } else if (sortBy === "showUpdatedLatest") { 
+      return new Date(b.show.updated) - new Date(a.show.updated); 
+    } else if (sortBy === "showUpdatedOldest") { // New sorting option
+      return new Date(a.show.updated) - new Date(b.show.updated); 
+    } 
+    return 0; 
   });
 
   const handlePlay = (episode) => {
@@ -44,7 +49,6 @@ function Favorites() {
     );
     setFavorites(updatedFavorites);
     localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-    // If the removed episode was playing, stop playback
     if (playingEpisode && playingEpisode.id === episodeId) {
       setPlayingEpisode(null);
     }
@@ -60,10 +64,17 @@ function Favorites() {
 
       {showDropdown && (
         <div className="favorites-dropdown">
+
           <div>
-            <button onClick={() => handleSortChange("asc")}>Sort A-Z</button>
-            <button onClick={() => handleSortChange("desc")}>Sort Z-A</button>
+            <label htmlFor="sort">Sort by:</label>
+            <select id="sort" value={sortBy} onChange={handleSortChange}>
+              <option value="title">Title (A-Z)</option>
+              <option value="dateAdded">Date Added</option>
+              <option value="showUpdated">Show Updated (Latest First)</option> 
+               <option value="showUpdatedOldest">Show Updated (Oldest First)</option>
+            </select>
           </div>
+
           <div className="favorites-grid">
             {sortedFavorites.map((favorite) => (
               <div key={favorite.episode.id} className="favorite-card">
@@ -77,6 +88,10 @@ function Favorites() {
                   <h4>{favorite.season}</h4>
                   <h5>{favorite.episode.title}</h5>
                   <p>{favorite.episode.description}</p>
+                  <p>
+                    Added to Favorites:{" "}
+                    {new Date(favorite.favoritedAt).toLocaleString()} 
+                  </p> 
                   <button onClick={() => handlePlay(favorite.episode)}>
                     Play Episode
                   </button>
