@@ -132,11 +132,15 @@ const ShowDetail = () => {
         <h2 className="show-title">{showDetails.title}</h2>
       </div>
       <p className="show-description">{showDetails.description}</p>
+      {/* The line below was trying to access show.updated, 
+          but it should be showDetails.updated */}
+      <p>Last Updated: {new Date(showDetails.updated).toLocaleDateString()}</p>
 
       {showDetails.seasons && (
         <div className="show-card">
           <SeasonList
             seasons={showDetails.seasons}
+      
             onFavoriteToggle={handleFavoriteToggle}
           />
         </div>

@@ -1,12 +1,13 @@
 /* General container for the show details */
 .show-details-container {
-  display: flex;
+  display: center;
   flex-direction: column; /* Stack elements vertically */
   border: none; /* Remove border */
   padding: 20px;
   border-radius: 5px; /* Add rounded corners */
   text-align: center; /* Center text within the container */
 }
+
 
 .show-list {
   display: grid;
@@ -22,6 +23,14 @@
   overflow: hidden; 
   text-decoration: none; 
   color: #000;  
+}
+
+.show-detail .show-card { /* Target the .show-card within .show-detail */
+  display: flex;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  flex-direction: column; /* Align items vertically */
+  align-items: center; /* Center items horizontally */
 }
 
 .show-card:hover {
