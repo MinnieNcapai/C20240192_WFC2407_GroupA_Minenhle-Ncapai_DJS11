@@ -90,6 +90,10 @@ const ShowList = () => {
       return [...shows].sort(
         (a, b) => new Date(b.updated) - new Date(a.updated)
       );
+        case "oldest": // Add case for oldest
+        return [...shows].sort(
+          (a, b) => new Date(a.updated) - new Date(b.updated)
+        );
     default:
       return shows; 
   }
@@ -162,6 +166,7 @@ const ShowList = () => {
         <select id="sort" value={sortOption} onChange={handleSortChange}>
           <option value="default">Default</option>
           <option value="newest">Newly Updated</option>
+          <option value="oldest">Oldest Updated</option>
         </select>
       </div>
 
