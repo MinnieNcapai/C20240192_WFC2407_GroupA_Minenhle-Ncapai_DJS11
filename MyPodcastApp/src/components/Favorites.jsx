@@ -7,7 +7,7 @@ function Favorites() {
   const [favorites, setFavorites] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [playingEpisode, setPlayingEpisode] = useState(null);
-  const [sortBy, setSortBy] = useState("title"); 
+  const [sortBy, setSortBy] = useState("title");
 
   useEffect(() => {
     const storedFavorites = localStorage.getItem("favorites");
@@ -21,22 +21,22 @@ function Favorites() {
   };
 
   const handleSortChange = (event) => {
-    setSortBy(event.target.value); 
+    setSortBy(event.target.value);
   };
 
   const sortedFavorites = [...favorites].sort((a, b) => {
     if (sortBy === "title") {
       const titleA = a.episode.title.toLowerCase();
       const titleB = b.episode.title.toLowerCase();
-      return titleA.localeCompare(titleB); 
-    } else if (sortBy === "dateAdded") { 
+      return titleA.localeCompare(titleB);
+    } else if (sortBy === "dateAdded") {
       return new Date(a.favoritedAt) - new Date(b.favoritedAt);
-    } else if (sortBy === "showUpdatedLatest") { 
-      return new Date(b.show.updated) - new Date(a.show.updated); 
-    } else if (sortBy === "showUpdatedOldest") { // New sorting option
-      return new Date(a.show.updated) - new Date(b.show.updated); 
-    } 
-    return 0; 
+    } else if (sortBy === "showUpdatedLatest") {
+      return new Date(b.show.updated) - new Date(a.show.updated);
+    } else if (sortBy === "showUpdatedOldest") {
+      return new Date(a.show.updated) - new Date(b.show.updated);
+    }
+    return 0;
   });
 
   const handlePlay = (episode) => {
@@ -64,14 +64,13 @@ function Favorites() {
 
       {showDropdown && (
         <div className="favorites-dropdown">
-
           <div>
             <label htmlFor="sort">Sort by:</label>
             <select id="sort" value={sortBy} onChange={handleSortChange}>
               <option value="title">Title (A-Z)</option>
               <option value="dateAdded">Date Added</option>
-              <option value="showUpdated">Show Updated (Latest First)</option> 
-               <option value="showUpdatedOldest">Show Updated (Oldest First)</option>
+              <option value="showUpdatedLatest">Show Updated (Latest First)</option>
+              <option value="showUpdatedOldest">Show Updated (Oldest First)</option>
             </select>
           </div>
 
@@ -90,8 +89,8 @@ function Favorites() {
                   <p>{favorite.episode.description}</p>
                   <p>
                     Added to Favorites:{" "}
-                    {new Date(favorite.favoritedAt).toLocaleString()} 
-                  </p> 
+                    {new Date(favorite.favoritedAt).toLocaleString()}
+                  </p>
                   <button onClick={() => handlePlay(favorite.episode)}>
                     Play Episode
                   </button>
