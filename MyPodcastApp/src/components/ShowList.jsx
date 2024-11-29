@@ -94,6 +94,10 @@ const ShowList = () => {
         return [...shows].sort(
           (a, b) => new Date(a.updated) - new Date(b.updated)
         );
+        case "a-z": // Add case for A-Z sorting
+        return [...shows].sort((a, b) => a.title.localeCompare(b.title)); 
+         case "z-a": // Add case for Z-A sorting
+        return [...shows].sort((a, b) => b.title.localeCompare(a.title));
     default:
       return shows; 
   }
@@ -167,6 +171,8 @@ const ShowList = () => {
           <option value="default">Default</option>
           <option value="newest">Newly Updated</option>
           <option value="oldest">Oldest Updated</option>
+          <option value="a-z">A - Z</option>
+           <option value="z-a">Z - A</option>
         </select>
       </div>
 
