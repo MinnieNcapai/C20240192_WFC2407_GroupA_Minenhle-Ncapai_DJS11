@@ -8,10 +8,9 @@
   text-align: center; /* Center text within the container */
 }
 
-
 .show-list {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); 
+  grid-template-columns: repeat(4, 1fr); /* 4 equal-width columns */
   gap: 20px; 
 }
 
@@ -47,24 +46,23 @@
 }
 
 .show-image {
-  width: 65%;
-  height: auto;
-  object-fit: cover;
-  margin-left: auto;
-  margin-right: auto; /* Center the image horizontally */
-  display: block; /* Ensures the image takes up the full width available */
-  margin-bottom: 10px;
+  width: 100%; /* Make the image responsive */
+  max-width: 600px; /* Limit max width */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+  margin-bottom: 20px; /* Space below the image */
 }
 
 .show-title {
-  font-size: 1.5em; 
-  color: #333;
-  margin-bottom: 10px; 
+  font-size: 2em; /* Increase font size for title */
+  margin: 10px 0; /* Space around the title */
 }
 
 .show-description {
-  font-size: 1.2em;
-  color: #666;
+  font-size: 1.1em; /* Slightly larger font for description */
+  line-height: 1.5; /* Increase line height for readability */
+  color: #666; /* Slightly lighter color for description */
   white-space: pre-line; /* Preserve line breaks in description */
 }
 
@@ -98,13 +96,13 @@
 /* Responsive Grid Adjustments */
 @media (max-width: 992px) { 
   .show-list {
-    grid-template-columns: repeat(3, 1fr); 
+    grid-template-columns: repeat(3, 1fr); /* 3 equal-width columns on medium screens */
   }
 }
 
 @media (max-width: 768px) { 
   .show-list {
-    grid-template-columns: repeat(2, 1fr); 
+    grid-template-columns: repeat(2, 1fr); /* 2 equal-width columns on smaller screens */
   }
 
   .show-details-container {
@@ -121,7 +119,6 @@
 }
 
 .favorites-container {
-  /* Styles for the main container */
   width: 75%; /* Adjust width as needed */
   margin: 20px auto;
   padding: 20px;
@@ -130,26 +127,22 @@
 }
 
 .favorite-card {
-  /* Styles for each favorite card */
   border: 1px solid #ccc;
   padding: 10px;
   border-radius: 5px;
 }
 
 .favorite-image {
-  /* Styles for the image */
   width: 100px; /* Adjust width as needed */
   height: auto; /* Maintain aspect ratio */
   margin-right: 10px;
 }
 
 .favorites-dropdown {
-  /* Styles for the dropdown content */
   margin-top: 20px;
 }
 
 .favorites-grid {
-  /* Styles for the grid container */
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3 equal-width columns */
   gap: 20px;
