@@ -38,7 +38,7 @@
 }
 
 .show-image {
-  width: 75%;
+  width: 65%;
   height: auto;
   object-fit: cover;
   margin-left: auto;
@@ -109,4 +109,39 @@
   .seasons-container {
     margin-top: 20px; /* Add spacing above seasons on small screens */
   }
+}
+
+.favorites-container {
+  /* Styles for the main container */
+  width: 75%; /* Adjust width as needed */
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.favorite-card {
+  /* Styles for each favorite card */
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.favorite-image {
+  /* Styles for the image */
+  width: 100px; /* Adjust width as needed */
+  height: auto; /* Maintain aspect ratio */
+  margin-right: 10px;
+}
+
+.favorites-dropdown {
+  /* Styles for the dropdown content */
+  margin-top: 20px;
+}
+
+.favorites-grid {
+  /* Styles for the grid container */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 equal-width columns */
+  gap: 20px;
 }
