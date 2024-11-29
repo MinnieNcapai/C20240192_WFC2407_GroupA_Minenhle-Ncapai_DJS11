@@ -16,7 +16,7 @@ Displays a list of podcasts, their seasons, and episodes.
 Allows searching for podcasts by title and filtering by genre.
 Supports toggling favorite status for episodes.
 
-ShowDetail
+ShowDetails
 Displays detailed information for a specific podcast show.
 Allows toggling favorite status for episodes within the show.
 ShowCard
