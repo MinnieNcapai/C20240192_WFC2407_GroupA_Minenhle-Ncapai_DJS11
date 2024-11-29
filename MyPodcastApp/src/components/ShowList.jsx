@@ -4,6 +4,7 @@ import SearchBar from "./SearchBar";
 import GenreFilter from "./GenreFilter";
 import PropTypes from "prop-types";
 
+
 const ShowList = () => {
   const [shows, setShows] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,6 +13,8 @@ const ShowList = () => {
   const [selectedGenre, setSelectedGenre] = useState("");
   const [genres, setGenres] = useState([]);
   const [favoriteEpisodes, setFavoriteEpisodes] = useState([]);
+  const [sortOption, setSortOption] = useState("default"); 
+
 
   const fetchShowsData = async () => {
     try {
@@ -80,6 +83,19 @@ const ShowList = () => {
     fetchShowsData();
   }, []);
 
+ // Sorting function
+ const sortShows = (shows) => {
+  switch (sortOption) {
+    case "newest":
+      return [...shows].sort(
+        (a, b) => new Date(b.updated) - new Date(a.updated)
+      );
+    default:
+      return shows; 
+  }
+};
+
+
   const filteredShows = shows.filter((show) => {
     const matchesSearchTerm = show.title.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesGenre = selectedGenre === "" || show.genres.some((genre) => {
@@ -89,12 +105,18 @@ const ShowList = () => {
     return matchesSearchTerm && matchesGenre;
   });
 
+  const sortedShows = sortShows(filteredShows); // Sort the filtered shows
+
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
   const handleGenreChange = (event) => {
     setSelectedGenre(event.target.value);
+  };
+
+  const handleSortChange = (event) => {
+    setSortOption(event.target.value);
   };
 
   const toggleFavorite = (showId, seasonNumber, episodeNumber) => {
@@ -133,8 +155,18 @@ const ShowList = () => {
         handleGenreChange={handleGenreChange}
       />
 
+
+       {/* Sorting Dropdown */}
+       <div>
+        <label htmlFor="sort">Sort by:</label>
+        <select id="sort" value={sortOption} onChange={handleSortChange}>
+          <option value="default">Default</option>
+          <option value="newest">Newly Updated</option>
+        </select>
+      </div>
+
       <div className="show-list">
-        {filteredShows.map((show) => (
+       {sortedShows.map((show) => (
           <ShowCard 
             key={show.id} 
             show={show} 
