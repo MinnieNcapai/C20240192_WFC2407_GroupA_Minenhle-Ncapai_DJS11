@@ -1,4 +1,10 @@
 /* General container for the show details */
+body {
+  background-color: #fce4ec; /* Light pink background for the whole page */
+  font-family: Arial, sans-serif; /* Set a default font */
+  margin: 0;
+  padding: 0;
+}
 .show-details-container {
   display: center;
   flex-direction: column; /* Stack elements vertically */
