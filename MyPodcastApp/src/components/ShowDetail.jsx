@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import SeasonList from "./SeasonList";
+import "../index.css"; // Import your CSS file
 
 const ShowDetail = () => {
   const { id } = useParams();
@@ -120,31 +121,27 @@ const ShowDetail = () => {
 
   return (
     <div className="show-details-container">
-      {/* Back button */}
       <button onClick={() => navigate(-1)}>Back</button>
 
-      <div className="show-header">
-        <img
-          src={showDetails.image}
-          alt={showDetails.title}
-          className="show-image"
-        />
-        <h2 className="show-title">{showDetails.title}</h2>
-      </div>
-      <p className="show-description">{showDetails.description}</p>
-      {/* The line below was trying to access show.updated, 
-          but it should be showDetails.updated */}
-      <p>Last Updated: {new Date(showDetails.updated).toLocaleDateString()}</p>
+      <div className="show-card"> 
+        <div className="show-header">
+          <img
+            src={showDetails.image}
+            alt={showDetails.title}
+            className="show-image"
+          />
+          <h2 className="show-title">{showDetails.title}</h2>
+        </div>
+        <p className="show-description">{showDetails.description}</p>
+        <p>Last Updated: {new Date(showDetails.updated).toLocaleDateString()}</p>
 
-      {showDetails.seasons && (
-        <div className="show-card">
+        {showDetails.seasons && (
           <SeasonList
             seasons={showDetails.seasons}
-      
             onFavoriteToggle={handleFavoriteToggle}
           />
-        </div>
-      )}
+        )}
+      </div>
 
       <Link to="/favorites">
         <button>Go to Favorites</button>

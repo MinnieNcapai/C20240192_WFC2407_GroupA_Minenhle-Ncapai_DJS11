@@ -4,6 +4,8 @@
   flex-direction: column; /* Stack elements vertically */
   border: none; /* Remove border */
   padding: 20px;
+  margin-bottom: 5px;
+  margin-top: 5px;
   border-radius: 5px; /* Add rounded corners */
   text-align: center; /* Center text within the container */
 }
@@ -32,6 +34,26 @@
   align-items: center; /* Center items horizontally */
 }
 
+.show-details-container .show-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  width: 90%; /* Adjust width as needed */
+  max-width: 900px; /* Adjust max-width as needed */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 5px; 
+  margin-top: 0; 
+}
+
+.show-details-container .show-card .show-image {
+  width: 100%; 
+  max-width: 400px; /* Adjust this value to control the image size */
+  height: auto; 
+  border-radius: 10px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  margin-bottom: 20px; 
+}
 .show-card:hover {
   box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
   transform: translateY(-2px); 
